@@ -8,10 +8,13 @@ import {
     Player,
     system,
     world,
+    GameMode,
+    Entity,
 } from '@minecraft/server';
 
 import {
     ActionFormData,
+    ModalFormData
 } from '@minecraft/server-ui';
 
 const NAME = 'Aerell NPC';
@@ -38,6 +41,26 @@ const npcCommand: CustomCommand = {
     ]
 };
 
+const spawnNPC = (player: Player): CustomCommandResult => {
+    const dimension = player.dimension;
+    const location = player.location;
+    try {
+        system.run(() => {
+            const npc = dimension.spawnEntity(NPC_ENTITY_TYPE_ID, location);
+            npc.nameTag = 'Aerell NPC';
+        });
+        return {
+            status: CustomCommandStatus.Success,
+            message: '§eThe Aerell NPC has been spawned.'
+        };
+    } catch (error: any) {
+        return {
+            status: CustomCommandStatus.Failure,
+            message: '§cFailed to spawn Aerell NPC.'
+        };
+    }
+};
+
 const npcCommandCallBack = (origin: CustomCommandOrigin, prefix: string): CustomCommandResult => {
     const source = origin.initiator ?? origin.sourceEntity;
 
@@ -51,13 +74,82 @@ const npcCommandCallBack = (origin: CustomCommandOrigin, prefix: string): Custom
         message: `§e${NAME} version ${VERSION}`
     };
 
+    if (prefix == 'spawn') return spawnNPC(source);
+
     return {
         status: CustomCommandStatus.Failure
     };
 };
 
+const playerIsCreative = (player: Player) => (player.getGameMode() == GameMode.Creative);
+
+const showNpcGuiSettings = (npc: Entity, player: Player) => {
+    system.run(() => {
+        const NPC_PROPERTY_MODEL_ID = 'aerell_npc:model';
+        const NPC_PROPERTY_SKIN_ID = 'aerell_npc:skin';
+        const form = new ModalFormData();
+
+        form.textField(
+            'Name',
+            'Enter the npc name...',
+            {
+                defaultValue: npc.nameTag
+            }
+        );
+
+        form.slider(
+            'Skin',
+            0,
+            2,
+            {
+                defaultValue: npc.getProperty(NPC_PROPERTY_SKIN_ID) as number,
+                valueStep: 1
+            }
+        )
+
+        form.dropdown(
+            'Model',
+            [
+                'Classic',
+                'Slim'
+            ],
+            {
+                defaultValueIndex: npc.getProperty(NPC_PROPERTY_MODEL_ID) as number
+            }
+        );
+
+        form.show(player).then((value) => {
+            if (value.canceled || !value.formValues) return;
+            npc.nameTag = value.formValues[0] as string;
+            npc.setProperty(NPC_PROPERTY_SKIN_ID, value.formValues[1] as number);
+            npc.setProperty(NPC_PROPERTY_MODEL_ID, value.formValues[2] as number);
+        });
+    });
+};
+
+const showNpcGuiMain = (npc: Entity, player: Player) => {
+    system.run(() => {
+        const form = new ActionFormData()
+            .title(npc.nameTag)
+            .label(`Health: ${npc.getComponent('minecraft:health')?.currentValue}`);
+
+        const isCreative = playerIsCreative(player);
+
+        if (isCreative) form.button('Settings');
+
+        form.show(player).then((value) => {
+            if (value.canceled) return;
+
+            if (isCreative && value.selection == 0) {
+                showNpcGuiSettings(npc, player);
+                return;
+            }
+        });
+    });
+};
+
 system.beforeEvents.startup.subscribe((event) => {
-    event.customCommandRegistry.registerEnum(NPC_COMMAND_ENUM_PREFIX_NAME, ['version']);
+    event.customCommandRegistry.registerEnum(NPC_COMMAND_ENUM_PREFIX_NAME, ['version', 'spawn']);
     event.customCommandRegistry.registerCommand(npcCommand, npcCommandCallBack);
 });
 
@@ -65,13 +157,6 @@ world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
     const itemStack = event.itemStack;
     const player = event.player;
     const target = event.target;
-    if (target.typeId == NPC_ENTITY_TYPE_ID && (itemStack?.typeId ?? '') != 'minecraft:name_tag') {
-        new ActionFormData()
-            .title('Aerell NPC - Menu')
-            .label(`Name: ${target.nameTag}`)
-            .label(`Health: ${target.getComponent('minecraft:health')?.currentValue}`)
-            .show(player).then((value) => {
-                if (value.canceled) return;
-            });
-    }
+    if (target.typeId != NPC_ENTITY_TYPE_ID || (itemStack?.typeId ?? '') == 'minecraft:name_tag') return;
+    showNpcGuiMain(target, player);
 });

@@ -9,11 +9,14 @@
         "animated": "player_animated"
       },
       "textures": {
-        "default": "textures/entity/steve",
+        "skin0": "textures/entity/aerell/npc/skins/0",
+        "skin1": "textures/entity/aerell/npc/skins/1",
+        "skin2": "textures/entity/aerell/npc/skins/2",
         "cape": "textures/entity/cape_invisible"
       },
       "geometry": {
-        "default": "geometry.humanoid.custom",
+        "classic": "geometry.humanoid.custom",
+        "slim": "geometry.humanoid.customSlim",
         "cape": "geometry.cape"
       },
       "scripts": {

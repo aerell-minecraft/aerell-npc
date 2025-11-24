@@ -1,0 +1,39 @@
+NOTE: This feature is not fixed, there will be many changes and modifications in the future.
+
+Command:
+[X] /aerell:npc spawn - Summon NPC
+
+NPC GUI - Main
+[X] Title: Name of NPC
+[X] Label: Health of NPC
+[X] Button: Settings
+[ ] Button: Inventory
+[ ] Button: Movement
+[ ] Button: Work
+[ ] Button: Information
+
+NPC GUI - Settings
+[X] Name (Textfield)
+[X] Skin (Slider -> skin index)
+[X] Model (Dropdown -> Classic, Slim)
+[X] Button: Submit (Apply settings)
+
+NPC GUI - Inventory
+[ ] Button: Open
+[ ] Button: Use Weapon/Armor (Depends on item at NPC Inventory)
+
+NPC GUI - Movement
+[ ] Button: Follow/Unfollow
+[ ] Button: Free
+[ ] Button: Stay here
+[ ] Button: Ride
+
+NPC GUI - Work
+[ ] Button: Cutting down
+[ ] Button: Mine
+[ ] Button: Hunt
+[ ] Button: Fishing
+[ ] Button: Craft
+[ ] Button: Cook
+[ ] Button: Build
+[ ] Button: Search Structure

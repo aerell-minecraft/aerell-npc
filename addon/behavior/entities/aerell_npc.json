@@ -4,8 +4,22 @@
         "description": {
             "identifier": "aerell:npc",
             "spawn_category": "creature",
-            "is_spawnable": true,
-            "is_summonable": true
+            "is_spawnable": false,
+            "is_summonable": true,
+            "properties": {
+                "aerell_npc:model": {
+                    "type": "int",
+                    "range": [0, 1],
+                    "default": 0,
+                    "client_sync": true
+                },
+                "aerell_npc:skin": {
+                    "type": "int",
+                    "range": [0, 2],
+                    "default": 0,
+                    "client_sync": true
+                }
+            }
         },
         "component_groups": {
             "minecraft:add_raid_omen": {
