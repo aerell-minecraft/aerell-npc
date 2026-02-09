@@ -1,0 +1,27 @@
+NOTE: This feature is not fixed, there will be many changes and modifications in the future.
+
+Version: 0.15.0 Alpha
+Deadline Release: 
+
+Command:
+[ ] (/aerell:npc | /npc) spawn - Summon NPC
+
+Crafting: (Survival Friendly)
+[ ] NPC Spawn Egg
+
+GUI:
+[ ] Main:
+    [ ] Name (Title)
+    [ ] Health (Label)
+    [ ] Settings (Button)
+    [ ] Movements (Button)
+
+[ ] Settings:
+    [ ] Name (Textfield)
+    [ ] Skin (Slider -> Skin Index)
+    [ ] Gender (Dropdown (Male/Female))
+
+[ ] Movements:
+    [ ] Follow (Button)
+    [ ] Free (Button)
+    [ ] Stay Here (Button)
