@@ -110,7 +110,11 @@
       "render_controllers": [
         "controller.render.aerell_npc"
       ],
-      "enable_attachables": true
+      "enable_attachables": true,
+      "spawn_egg": {
+        "base_color": "#F6F7F8",
+        "overlay_color": "#AFBAC2"
+      }
     }
   }
 }
