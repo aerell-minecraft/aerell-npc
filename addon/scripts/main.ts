@@ -19,7 +19,7 @@ import {
 
 const NAME = 'Aerell NPC';
 const IDENTIFIER_PREFIX = 'aerell';
-const VERSION = '1.0.0';
+const VERSION = '0.28.0';
 
 const NPC = 'npc';
 
