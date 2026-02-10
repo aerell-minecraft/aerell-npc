@@ -1,0 +1,40 @@
+NOTE: This feature is not fixed, there will be many changes and modifications in the future.
+
+Version: 0.28.0 Alpha
+Deadline Release: 
+
+Command:
+[X] (/aerell:npc | /npc) > Aerell NPC Commands
+    - [X] spawn > Summon Aerell NPC
+    - [X] version > Show Aerell NPC Version
+
+Items:
+[ ] NPC Spawn Egg
+    - [ ] Can craft (Survival Friendly)
+
+GUI:
+[ ] Main:
+    [X] Name (Title)
+    [X] Health (Label)
+    [X] Settings (Button)
+    [ ] Movements (Button)
+
+[X] Settings:
+    [X] Name (Textfield)
+    [X] Skin (Slider -> Skin Index)
+    [X] Model (Dropdown (Classic/Slim))
+
+[ ] Movements:
+    [ ] Follow (Button)
+        [ ] Behavior:
+            [ ] Follow the player
+            [ ] Can attack monster if see and reach
+    [ ] Free (Button)
+        [ ] Behavior:
+            [ ] Random move around
+            [ ] Can attack monster if see and reach
+    [ ] Stay Here (Button)
+        [ ] Behavior:
+            [ ] Not move
+            [ ] Can attack monster if see and reach
+            [ ] If finish attack the monster, back to stay here position
