@@ -8,7 +8,6 @@ import {
     Player,
     system,
     world,
-    GameMode,
     Entity,
 } from '@minecraft/server';
 
@@ -81,70 +80,82 @@ const npcCommandCallBack = (origin: CustomCommandOrigin, prefix: string): Custom
     };
 };
 
-const playerIsCreative = (player: Player) => (player.getGameMode() == GameMode.Creative);
-
 const showNpcGuiSettings = (npc: Entity, player: Player) => {
     system.run(() => {
         const NPC_PROPERTY_MODEL_ID = 'aerell_npc:model';
         const NPC_PROPERTY_SKIN_ID = 'aerell_npc:skin';
-        const form = new ModalFormData();
+        new ModalFormData()
+            .title("Settings")
+            .textField(
+                'Name',
+                'Enter the npc name...',
+                {
+                    defaultValue: npc.nameTag
+                }
+            ).slider(
+                'Skin',
+                0,
+                2,
+                {
+                    defaultValue: npc.getProperty(NPC_PROPERTY_SKIN_ID) as number,
+                    valueStep: 1
+                }
+            ).dropdown(
+                'Model',
+                [
+                    'Classic',
+                    'Slim'
+                ],
+                {
+                    defaultValueIndex: npc.getProperty(NPC_PROPERTY_MODEL_ID) as number
+                }
+            ).show(player).then((value) => {
+                if (value.canceled || !value.formValues) return;
+                npc.nameTag = value.formValues[0] as string;
+                npc.setProperty(NPC_PROPERTY_SKIN_ID, value.formValues[1] as number);
+                npc.setProperty(NPC_PROPERTY_MODEL_ID, value.formValues[2] as number);
+            });
+    });
+};
 
-        form.textField(
-            'Name',
-            'Enter the npc name...',
-            {
-                defaultValue: npc.nameTag
-            }
-        );
+const showNpcGuiMovements = (player: Player) => {
+    system.run(() => {
+        new ActionFormData()
+            .title("Movements")
+            .button("Follow")
+            .button("Free")
+            .button("Stay Here")
+            .show(player).then((value) => {
+                if (value.canceled) return;
 
-        form.slider(
-            'Skin',
-            0,
-            2,
-            {
-                defaultValue: npc.getProperty(NPC_PROPERTY_SKIN_ID) as number,
-                valueStep: 1
-            }
-        )
-
-        form.dropdown(
-            'Model',
-            [
-                'Classic',
-                'Slim'
-            ],
-            {
-                defaultValueIndex: npc.getProperty(NPC_PROPERTY_MODEL_ID) as number
-            }
-        );
-
-        form.show(player).then((value) => {
-            if (value.canceled || !value.formValues) return;
-            npc.nameTag = value.formValues[0] as string;
-            npc.setProperty(NPC_PROPERTY_SKIN_ID, value.formValues[1] as number);
-            npc.setProperty(NPC_PROPERTY_MODEL_ID, value.formValues[2] as number);
-        });
+                switch(value.selection) {
+                    default:
+                        player.sendMessage("§cComing soon feature.");
+                        break;
+                }
+            });
     });
 };
 
 const showNpcGuiMain = (npc: Entity, player: Player) => {
     system.run(() => {
-        const form = new ActionFormData()
+        new ActionFormData()
             .title(npc.nameTag)
-            .label(`Health: ${npc.getComponent('minecraft:health')?.currentValue}`);
+            .label(`Health: ${npc.getComponent('minecraft:health')?.currentValue}`)
+            .button("Settings")
+            .button("Movements")
+            .show(player).then((value) => {
+                if (value.canceled) return;
 
-        const isCreative = playerIsCreative(player);
-
-        if (isCreative) form.button('Settings');
-
-        form.show(player).then((value) => {
-            if (value.canceled) return;
-
-            if (isCreative && value.selection == 0) {
-                showNpcGuiSettings(npc, player);
-                return;
-            }
-        });
+                switch (value.selection) {
+                    case 0:
+                        showNpcGuiSettings(npc, player);
+                        break;
+                    case 1:
+                        showNpcGuiMovements(player);
+                        break;
+                }
+            });
     });
 };
 
