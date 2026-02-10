@@ -9,15 +9,15 @@ Command:
     - [X] version > Show Aerell NPC Version
 
 Items:
-[ ] NPC Spawn Egg
-    - [ ] Can craft (Survival Friendly)
+[X] NPC Spawn Egg
+    - [X] Can craft (Survival Friendly)
 
 GUI:
-[ ] Main:
+[X] Main:
     [X] Name (Title)
     [X] Health (Label)
     [X] Settings (Button)
-    [ ] Movements (Button)
+    [X] Movements (Button)
 
 [X] Settings:
     [X] Name (Textfield)
@@ -25,15 +25,15 @@ GUI:
     [X] Model (Dropdown (Classic/Slim))
 
 [ ] Movements:
-    [ ] Follow (Button)
+    [X] Follow (Button)
         [ ] Behavior:
             [ ] Follow the player
             [ ] Can attack monster if see and reach
-    [ ] Free (Button)
+    [X] Free (Button)
         [ ] Behavior:
             [ ] Random move around
             [ ] Can attack monster if see and reach
-    [ ] Stay Here (Button)
+    [X] Stay Here (Button)
         [ ] Behavior:
             [ ] Not move
             [ ] Can attack monster if see and reach

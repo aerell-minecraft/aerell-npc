@@ -1,0 +1,35 @@
+{
+    "format_version": "1.21.50",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "aerell:npc_spawn_egg"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "#",
+            "A"
+        ],
+        "key": {
+            "#": {
+                "item": "minecraft:totem_of_undying"
+            },
+            "A": {
+                "item": "minecraft:armor_stand"
+            }
+        },
+        "unlock": [
+            {
+                "item": "minecraft:armor_stand"
+            },
+            {
+                "item": "minecraft:armor_stand"
+            }
+        ],
+        "result": {
+            "item": "aerell:npc_spawn_egg",
+            "count": 1
+        }
+    }
+}
