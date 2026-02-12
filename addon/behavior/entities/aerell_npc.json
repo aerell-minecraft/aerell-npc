@@ -9,15 +9,29 @@
             "properties": {
                 "aerell_npc:model": {
                     "type": "int",
-                    "range": [0, 1],
+                    "range": [
+                        0,
+                        1
+                    ],
                     "default": 0,
                     "client_sync": true
                 },
                 "aerell_npc:skin": {
                     "type": "int",
-                    "range": [0, 2],
+                    "range": [
+                        0,
+                        2
+                    ],
                     "default": 0,
                     "client_sync": true
+                },
+                "aerell_npc:movement": {
+                    "type": "int",
+                    "range": [
+                        0,
+                        2
+                    ],
+                    "default": 1
                 }
             }
         },
@@ -55,7 +69,20 @@
                         "target": "self"
                     }
                 }
-            }
+            },
+            "aerell_npc:follow": {
+                "minecraft:behavior.follow_owner": {
+                    "priority": 0
+                },
+                "minecraft:is_tamed": {}
+            },
+            "aerell_npc:free": {
+                "minecraft:behavior.random_stroll": {
+                    "priority": 0,
+                    "speed_multiplier": 1
+                }
+            },
+            "aerell_npc:stay_here": {}
         },
         "components": {
             "minecraft:experience_reward": {
@@ -63,6 +90,7 @@
             },
             "minecraft:type_family": {
                 "family": [
+                    "mob",
                     "npc",
                     "player"
                 ]
@@ -77,7 +105,7 @@
             },
             "minecraft:can_climb": {},
             "minecraft:movement": {
-                "value": 0.1
+                "value": 0.3
             },
             "minecraft:hurt_on_condition": {
                 "damage_conditions": [
@@ -137,7 +165,7 @@
                 "push_towards_closest_space": true
             },
             "minecraft:pushable": {
-                "is_pushable": false,
+                "is_pushable": true,
                 "is_pushable_by_piston": true
             },
             "minecraft:insomnia": {
@@ -192,7 +220,26 @@
                     },
                     "event": "minecraft:gain_raid_omen"
                 }
-            }
+            },
+            "minecraft:movement.generic": {},
+            "minecraft:navigation.generic": {
+                "avoid_damage_blocks": true,
+                "can_open_doors": true,
+                "can_swim": true,
+                "is_amphibious": true
+            },
+            "minecraft:behavior.look_at_player": {
+                "priority": 1
+            },
+            "minecraft:behavior.look_at_entity": {
+                "priority": 2,
+                "filters": {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "mob"
+                }
+            },
+            "minecraft:tameable": {}
         },
         "events": {
             "minecraft:gain_raid_omen": {
@@ -225,6 +272,52 @@
                 "remove": {
                     "component_groups": [
                         "minecraft:raid_trigger"
+                    ]
+                }
+            },
+            "minecraft:entity_spawned": {
+                "add": {
+                    "component_groups": [
+                        "aerell_npc:ai"
+                    ]
+                }
+            },
+            "aerell_npc:follow": {
+                "add": {
+                    "component_groups": [
+                        "aerell_npc:follow"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "aerell_npc:free",
+                        "aerell_npc:stay_here"
+                    ]
+                }
+            },
+            "aerell_npc:free": {
+                "add": {
+                    "component_groups": [
+                        "aerell_npc:free"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "aerell_npc:follow",
+                        "aerell_npc:stay_here"
+                    ]
+                }
+            },
+            "aerell_npc:stay_here": {
+                "add": {
+                    "component_groups": [
+                        "aerell_npc:stay_here"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "aerell_npc:free",
+                        "aerell_npc:follow"
                     ]
                 }
             }
