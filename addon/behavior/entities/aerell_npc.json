@@ -63,6 +63,7 @@
             },
             "minecraft:type_family": {
                 "family": [
+                    "npc",
                     "player"
                 ]
             },
