@@ -1,5 +1,5 @@
 {
-    "format_version": "1.21.0",
+    "format_version": "1.21.40",
     "minecraft:entity": {
         "description": {
             "identifier": "aerell:npc",
@@ -71,18 +71,36 @@
                 }
             },
             "aerell_npc:follow": {
+                "minecraft:movement": {
+                    "value": 0.3
+                },
+                "minecraft:is_tamed": {},
                 "minecraft:behavior.follow_owner": {
                     "priority": 0
                 },
-                "minecraft:is_tamed": {}
-            },
-            "aerell_npc:free": {
-                "minecraft:behavior.random_stroll": {
-                    "priority": 0,
-                    "speed_multiplier": 1
+                "minecraft:behavior.owner_hurt_by_target": {
+                    "priority": 1
+                },
+                "minecraft:behavior.owner_hurt_target": {
+                    "priority": 2
                 }
             },
-            "aerell_npc:stay_here": {}
+            "aerell_npc:free": {
+                "minecraft:movement": {
+                    "value": 0.3
+                },
+                "minecraft:tameable": {},
+                "minecraft:behavior.random_stroll": {
+                    "priority": 0,
+                    "speed_multiplier": 1.0
+                }
+            },
+            "aerell_npc:stay_here": {
+                "minecraft:movement": {
+                    "value": 0
+                },
+                "minecraft:tameable": {}
+            }
         },
         "components": {
             "minecraft:experience_reward": {
@@ -104,9 +122,6 @@
                 "height": 1.8
             },
             "minecraft:can_climb": {},
-            "minecraft:movement": {
-                "value": 0.3
-            },
             "minecraft:hurt_on_condition": {
                 "damage_conditions": [
                     {
@@ -124,32 +139,9 @@
             "minecraft:attack": {
                 "damage": 1
             },
-            "minecraft:exhaustion_values": {
-                "heal": 6,
-                "jump": 0.05,
-                "sprint_jump": 0.2,
-                "mine": 0.005,
-                "attack": 0.1,
-                "damage": 0.1,
-                "walk": 0.0,
-                "sprint": 0.1,
-                "swim": 0.01
-            },
-            "minecraft:player.saturation": {
-                "value": 5,
-                "max": 20
-            },
-            "minecraft:player.exhaustion": {
-                "value": 0,
-                "max": 20
-            },
-            "minecraft:player.level": {
-                "value": 0,
-                "max": 24791
-            },
-            "minecraft:player.experience": {
-                "value": 0,
-                "max": 1
+            "minecraft:health": {
+                "max": 20,
+                "value": 20
             },
             "minecraft:breathable": {
                 "total_supply": 15,
@@ -239,7 +231,26 @@
                     "value": "mob"
                 }
             },
-            "minecraft:tameable": {}
+            "minecraft:behavior.melee_attack": {
+                "priority": 0,
+                "track_target": true,
+                "speed_multiplier": 1.0
+            },
+            "minecraft:behavior.nearest_attackable_target": {
+                "priority": 1,
+                "must_see": true,
+                "entity_types": [
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "monster"
+                        },
+                        "max_dist": 16
+                    }
+                ]
+            },
+            "minecraft:jump.static": {}
         },
         "events": {
             "minecraft:gain_raid_omen": {
@@ -276,11 +287,51 @@
                 }
             },
             "minecraft:entity_spawned": {
-                "add": {
-                    "component_groups": [
-                        "aerell_npc:ai"
-                    ]
-                }
+                "sequence": [
+                    {
+                        "filters": {
+                            "test": "int_property",
+                            "domain": "aerell_npc:movement",
+                            "operator": "==",
+                            "value": 0
+                        },
+                        "trigger": {
+                            "event": "aerell_npc:follow",
+                            "target": "self"
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "int_property",
+                            "domain": "aerell_npc:movement",
+                            "operator": "==",
+                            "value": 1
+                        },
+                        "trigger": {
+                            "event": "aerell_npc:free",
+                            "target": "self"
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "int_property",
+                            "domain": "aerell_npc:movement",
+                            "operator": "==",
+                            "value": 2
+                        },
+                        "trigger": {
+                            "event": "aerell_npc:stay_here",
+                            "target": "self"
+                        }
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "aerell_npc:ai"
+                            ]
+                        }
+                    }
+                ]
             },
             "aerell_npc:follow": {
                 "add": {

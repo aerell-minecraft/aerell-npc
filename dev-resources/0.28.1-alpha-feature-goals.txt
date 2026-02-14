@@ -1,7 +1,10 @@
 NOTE: This feature is not fixed, there will be many changes and modifications in the future.
 
-Version: 0.28.0 Alpha
+Version: 0.28.1 Alpha
 Deadline Release: 
+
+Entity:
+[X] Aerell NPC
 
 Command:
 [X] (/aerell:npc | /npc) > Aerell NPC Commands
@@ -24,17 +27,21 @@ GUI:
     [X] Skin (Slider -> Skin Index)
     [X] Model (Dropdown (Classic/Slim))
 
-[ ] Movements:
+[X] Movements:
     [X] Follow (Button)
-        [ ] Behavior:
-            [ ] Follow the player
-            [ ] Can attack monster if see and reach
+        [X] Behavior:
+            [X] Follow the player
+            [X] Can help the player to attack entity
+            [X] Can attack entity which attack the player
+            [X] Can attack monster if see and reach
     [X] Free (Button)
-        [ ] Behavior:
-            [ ] Random move around
-            [ ] Can attack monster if see and reach
+        [X] Behavior:
+            [X] Random move around
+            [X] Can attack monster if see and reach
     [X] Stay Here (Button)
-        [ ] Behavior:
-            [ ] Not move
-            [ ] Can attack monster if see and reach
-            [ ] If finish attack the monster, back to stay here position
+        [X] Behavior:
+            [X] Not random move around
+            [X] Can attack monster if see, reach and near
+
+Bug or problem:
+- [X] NPC Can't jump in follow movement
