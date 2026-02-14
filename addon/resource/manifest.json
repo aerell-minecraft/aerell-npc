@@ -10,24 +10,26 @@
         "name": "pack.name",
         "pack_scope": "world",
         "uuid": "e1d95614-fe51-4829-8e67-e927154001aa",
-        "version": "0.28.0"
+        "version": "0.28.1"
     },
     "modules": [
         {
             "description": "pack.description",
             "type": "resources",
             "uuid": "71852bdd-38e9-4e94-bbd1-5a797847af2a",
-            "version": "0.28.0"
+            "version": "0.28.1"
         }
     ],
     "dependencies": [
         {
             "uuid": "1fbf9791-e1ec-4516-b543-b6bd661cd668",
-            "version": "0.28.0"
+            "version": "0.28.1"
         }
     ],
     "metadata": {
-        "authors": ["Fern Aerell"],
+        "authors": [
+            "Fern Aerell"
+        ],
         "license": "MIT",
         "product_type": "addon",
         "url": "https://www.youtube.com/@aerelltech"

@@ -1,7 +1,7 @@
 {
   "name": "scripts",
   "module": "main.ts",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "type": "module",
   "private": true,
   "devDependencies": {
